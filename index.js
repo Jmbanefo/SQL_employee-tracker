@@ -3,7 +3,7 @@ const mysql = require("mysql2");
 const consoleTable = require("console.table"); 
 const { connect } = require("http2");
 const { type } = require("os");
-const { Console, error } = require("console");
+const { Console, error, log } = require("console");
 
 
 const db = mysql.createConnection( 
@@ -87,12 +87,12 @@ function addDepartment(){
         },
     ])
     .then((response) => { 
-        db.query( `Insert INTO department (name) VALUES ("${answer.departmentName}")`) // Check departmentName
+        db.query( `Insert INTO departments (name) VALUES ("${answer.departmentName}")`) // Check departmentName
         promptMenu(); 
     })
 }
 function addRole(){ 
-    db.query(`SELECT * FROM department`, (err, resultes) => { 
+    db.query(`SELECT * FROM departments`, (err, resultes) => { 
         if (err) throw err; 
         inquirer.prompt([
             { 
@@ -125,7 +125,7 @@ function addRole(){
 function  addEmployee(){ 
    db.query(`SELECT * FROM roles`, (err, roles) => {
    if (err) throw err;
-   db.query(`SELECT * FROM employee`, (err, EmployeeManager) => { 
+   db.query(`SELECT * FROM employees`, (err, EmployeeManager) => { 
     if (err) throw err;
     consoleTable(roles); 
     consoleTable(results); 
@@ -157,20 +157,71 @@ function  addEmployee(){
         }
     ])
     .then((response) => { 
-        const findRole = roles.find((role) => role.title === response.employeeRole);
+        const findRole = roles.find((findRole) => findRole.title === response.employeeRole);
         const findManager = EmployeeManager.find(
           (manager) =>
             `${manager.first_name} ${manager.last_name}` === response.employeeManager
         );
-        db.query() //
+        db.query(`INSERT INTO employees SET ?`, 
+        { 
+            first_name: response.employeeFirstName,
+            last_name: response.employeeLastName, 
+            employeeRole: findRole.id, 
+            findManager: manager.id, 
+        },
+        (err, res) => { 
+            if(err) throw err; 
+            console.log("Successfully added employee");
+            promptMenu(); 
+        }
+        ) 
     })
    })
 });      
 }
 
 function updatedEmployee(){ 
-
+    db.query(`SELECT * FROM Employee`, (err, employee_list) => { 
+        if(err) throw err; 
+        db.query(`SELECT * FROM roles`, (err, roles) => { 
+            if(err) throw err; 
+            inquirer.prompt([
+                { 
+                    type: "list", 
+                    name: "updateEmployee", 
+                    message: "Please select the employee would you like to update.", 
+                    choices: employee_list.map((updatedEmployee) => ({ 
+                        name: `${updateEmployee.fist_name} ${updateEmployee.last_name}`, 
+                        value: updatedEmployee.id, 
+                    }))
+                }, 
+                {
+                    type: "list",
+                    name: "updatedRole",
+                    message: "Please selcet the employee's new role.",
+                    choices: roles.map((role) => ({
+                        name: updatedRole.title,
+                        value: updatedRole.id,
+                    }
+                    )),
+                },
+            ])
+            .then((response) => { 
+                console.log(response);
+                db.query(`UPDATE employee SET role_id = ${response.updatedRole} WHERE id = ${response.updatedRole}`, 
+                (err, result) => { 
+                       if (err) throw err; 
+                       console.log("Updated");  
+                       console.table(result); 
+                       promptMenu();    
+                })
+            })
+            
+        })
+    })
 }
+
+promptMenu(); 
 
 function quit() { 
     console.log("Thank you for using the Employee Tracker!");
