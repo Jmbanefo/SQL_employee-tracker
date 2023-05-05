@@ -8,10 +8,10 @@ const { Console, error, log } = require("console");
 
 const db = mysql.createConnection( 
     { 
-        host: 'localhost', 
+        host: '127.0.0.1', 
         user: 'root', 
         password:"987", 
-        database: tracker_db, 
+        database: "tracker_db", 
 
     },
     console.log('Successfully connected to the tracker_db database')
