@@ -116,7 +116,7 @@ function addRole(){
           },
         ])
         .then((response) => { 
-            db.query( `INSERT INTO roles (title, department_id, salary) VALUES ("${response.roleName}", "${response.departmentMap}", "${response.roleSalary})`); 
+            db.query( `INSERT INTO roles (title, department_id, salary) VALUES ("${response.roleName}", "${response.deptRole}", ${response.roleSalary})`); 
             promptMenu(); 
         })
     })
@@ -167,7 +167,7 @@ function  addEmployee(){
             first_name: response.employeeFirstName,
             last_name: response.employeeLastName, 
             employeeRole: findRole.id, 
-            findManager: manager.id, 
+            findManager: EmployeeManager.id, 
         },
         (err, res) => { 
             if(err) throw err; 
