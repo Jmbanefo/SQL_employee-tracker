@@ -166,8 +166,8 @@ function  addEmployee(){
         { 
             first_name: response.employeeFirstName,
             last_name: response.employeeLastName, 
-            employeeRole: findRole.id, 
-            findManager: EmployeeManager.id, 
+            role_id: findRole.id, 
+            manager_id: EmployeeManager.id, 
         },
         (err, res) => { 
             if(err) throw err; 
