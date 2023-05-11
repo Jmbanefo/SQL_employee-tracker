@@ -10,7 +10,7 @@ const db = mysql.createConnection(
     { 
         host: '127.0.0.1', 
         user: 'root', 
-        password:"987", 
+        password:"Egondu_95", 
         database: "tracker_db", 
 
     },
@@ -87,7 +87,7 @@ function addDepartment(){
         },
     ])
     .then((response) => { 
-        db.query( `Insert INTO departments (name) VALUES ("${answer.departmentName}")`) // Check departmentName
+        db.query( `Insert INTO departments (name) VALUES ("${response.departmentName}")`) // Check departmentName
         promptMenu(); 
     })
 }
@@ -109,14 +109,14 @@ function addRole(){
           type: "list",
           name: "deptRole",
           message: "Please select the department of the role:",
-          choices: departmentName.map((department) => ({ 
-            name: departmentName, 
-            value: departmentId // Check these last 3 lines
+          choices: departments.map((departmentMap) => ({ 
+            name: departmentMap.name, 
+            value: departmentMap.id 
           }))
           },
         ])
         .then((response) => { 
-            db.query( `INSERT INTO roles (title, department_id, salary) VALUES ("${response.roleName}", "${response.departmentName}", "${response.roleSalary})`); 
+            db.query( `INSERT INTO roles (title, department_id, salary) VALUES ("${response.roleName}", "${response.departmentMap}", "${response.roleSalary})`); 
             promptMenu(); 
         })
     })
@@ -127,8 +127,8 @@ function  addEmployee(){
    if (err) throw err;
    db.query(`SELECT * FROM employees`, (err, EmployeeManager) => { 
     if (err) throw err;
-    consoleTable(roles); 
-    consoleTable(results); 
+    console.table(roles); 
+    console.table(EmployeeManager); 
 
     inquirer.prompt([
         { 
