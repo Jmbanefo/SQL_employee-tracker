@@ -181,7 +181,7 @@ function  addEmployee(){
 }
 
 function updatedEmployee(){ 
-    db.query(`SELECT * FROM Employee`, (err, employee_list) => { 
+    db.query(`SELECT * FROM employees`, (err, employee_list) => { 
         if(err) throw err; 
         db.query(`SELECT * FROM roles`, (err, roles) => { 
             if(err) throw err; 
