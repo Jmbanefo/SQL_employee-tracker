@@ -92,7 +92,7 @@ function addDepartment(){
     })
 }
 function addRole(){ 
-    db.query(`SELECT * FROM departments`, (err, resultes) => { 
+    db.query(`SELECT * FROM departments`, (err, results) => { 
         if (err) throw err; 
         inquirer.prompt([
             { 
@@ -109,7 +109,7 @@ function addRole(){
           type: "list",
           name: "deptRole",
           message: "Please select the department of the role:",
-          choices: departments.map((departmentMap) => ({ 
+          choices: results.map((departmentMap) => ({ 
             name: departmentMap.name, 
             value: departmentMap.id 
           }))
