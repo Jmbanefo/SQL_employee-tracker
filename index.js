@@ -24,7 +24,7 @@ function promptMenu() {
         type: "list", 
         name: "menu", 
         message: "What would you like to do?", 
-        choices: [ "View all departments","View all roles","View all employees","Add a department","Add a role","Add an employee","Update an employee role","Exit",]
+        choices: [ "View all departments","View all roles","View all employees","Add a department","Add a role","Add an employee","Update an employee","Exit",]
         } 
     ])
     .then ((answer) => { 
@@ -191,7 +191,7 @@ function updatedEmployee(){
                     name: "updateEmployee", 
                     message: "Please select the employee would you like to update.", 
                     choices: employee_list.map((updatedEmployee) => ({ 
-                        name: `${updateEmployee.fist_name} ${updateEmployee.last_name}`, 
+                        name: `${updatedEmployee.first_name} ${updatedEmployee.last_name}`, 
                         value: updatedEmployee.id, 
                     }))
                 }, 
@@ -199,7 +199,7 @@ function updatedEmployee(){
                     type: "list",
                     name: "updatedRole",
                     message: "Please selcet the employee's new role.",
-                    choices: roles.map((role) => ({
+                    choices: roles.map((updatedRole) => ({
                         name: updatedRole.title,
                         value: updatedRole.id,
                     }
@@ -208,7 +208,7 @@ function updatedEmployee(){
             ])
             .then((response) => { 
                 console.log(response);
-                db.query(`UPDATE employee SET role_id = ${response.updatedRole} WHERE id = ${response.updatedRole}`, 
+                db.query(`UPDATE employees SET role_id = ${response.updatedRole} WHERE id = ${response.updatedRole}`, 
                 (err, result) => { 
                        if (err) throw err; 
                        console.log("Updated");  
