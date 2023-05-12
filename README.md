@@ -3,6 +3,8 @@
     
   The employee tracker is an application that easily allows you to view and manage an employee database. You can add, delete and update various departments, roles and employees. The system was created using Node.js and MySQL. 
 
+  Here is a video link demonstrating the application: https://watch.screencastify.com/v/ODO9lEYtWRv5J9csTJta
+  
   ## Table of Contents
   * [Installation](#installation)
   * [Usage](#usage)

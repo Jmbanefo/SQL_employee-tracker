@@ -37,6 +37,7 @@ function promptMenu() {
             break; 
             case "View all employees": 
             viewEmployees(); 
+            break; 
             case "Add a department": 
             addDepartment(); 
             break; 
@@ -79,7 +80,7 @@ function  viewEmployees() {
     })
 }
 function addDepartment(){ 
-    inquirer.prompt ([
+    inquirer.prompt([
         {
         type: 'input', 
         name: "departmentName", 
@@ -87,7 +88,7 @@ function addDepartment(){
         },
     ])
     .then((response) => { 
-        db.query( `Insert INTO departments (name) VALUES ("${response.departmentName}")`) // Check departmentName
+        db.query( `Insert INTO departments (name) VALUES ("${response.departmentName}")`) 
         promptMenu(); 
     })
 }
